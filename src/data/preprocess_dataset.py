@@ -99,7 +99,7 @@ def _build_vocabulary(input_files):
     vocab = collections.OrderedDict()
     with tf.gfile.GFile(FLAGS.vocab_file, mode="r") as f:
       for i, line in enumerate(f):
-        word = line.decode("utf-8").strip()
+        word = line.strip()
         if word in vocab:
           print('Duplicate word:', word)
         #assert word not in vocab, "Attempting to add word twice: %s" % word
@@ -122,8 +122,8 @@ def _build_vocabulary(input_files):
 
   tf.logging.info("Processed %d sentences total", num)
 
-  words = wordcount.keys()
-  freqs = wordcount.values()
+  words = list(wordcount.keys())
+  freqs = list(wordcount.values())
   sorted_indices = np.argsort(freqs)[::-1]
 
   vocab = collections.OrderedDict()
@@ -270,7 +270,7 @@ def main(unused_argv):
   #shuffled_indices = np.random.permutation(len(dataset))
   #val_indices = shuffled_indices[:FLAGS.num_validation_sentences]
   #train_indices = shuffled_indices[FLAGS.num_validation_sentences:]
-  indices = range(len(dataset))
+  indices = list(range(len(dataset)))
   val_indices = indices[:FLAGS.num_validation_sentences]
   train_indices = indices[FLAGS.num_validation_sentences:]
 
